@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smartcom.WebApp", "Smartcom.WebApp\Smartcom.WebApp.csproj", "{BEE6A71D-7E0A-42E0-A226-FE1FEE54DB52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEE6A71D-7E0A-42E0-A226-FE1FEE54DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE6A71D-7E0A-42E0-A226-FE1FEE54DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE6A71D-7E0A-42E0-A226-FE1FEE54DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE6A71D-7E0A-42E0-A226-FE1FEE54DB52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BF15F76-A745-4B60-9ACC-EAB7AA0035C8}
+	EndGlobalSection
+EndGlobal
