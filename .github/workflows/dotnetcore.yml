@@ -12,9 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Docker Build & Push
+    - uses: mr-smithers-excellent/docker-build-push@v2
       with:
-        dotnet-version: 3.1.101
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+        image: uzhakov/smartcom
+        tag: 2.0
+        registry: docker.io
+        dockerfile: Dockerfile
+        username: ${{ secrets.DOCKER_LOGIN }}
+        password: ${{ secrets.DOCKER_PASS }}
