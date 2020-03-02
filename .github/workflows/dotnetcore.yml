@@ -12,8 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Docker Build & Push
-    - uses: mr-smithers-excellent/docker-build-push@v2
+      uses: mr-smithers-excellent/docker-build-push@v2
       with:
         image: uzhakov/smartcom
         tag: 2.0
