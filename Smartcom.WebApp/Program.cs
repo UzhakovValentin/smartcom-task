@@ -18,6 +18,10 @@ namespace Smartcom.WebApp
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(config =>
+                {
+                    config.AddJsonFile("appsettings.Secret.json");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -4,9 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Smartcom.WebApp.Database;
+using Smartcom.WebApp.Models;
 
 namespace Smartcom.WebApp
 {
@@ -22,7 +26,25 @@ namespace Smartcom.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+#if DEBUG
+            services.AddDbContext<AppDataBaseContext>(config =>
+                config.UseSqlServer(Configuration.GetConnectionString("SmartComLocalDB"),
+                options => options.MigrationsAssembly("Smartcom.WebApp")));
+#else
+            services.AddDbContext<AppDataBaseContext>(config =>
+                config.UseNpgsql(Configuration.GetConnectionString("PostgresDB"),
+                options => options.MigrationsAssembly("Smartcom.WebApp")));
+#endif
+            services.AddIdentity<Customer, IdentityRole<Guid>>(options =>
+            {
+                options.Password.RequiredLength = 0;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<AppDataBaseContext>();
             services.AddMvc(config => config.EnableEndpointRouting = false);
         }
 
@@ -35,11 +57,8 @@ namespace Smartcom.WebApp
             }
 
             app.UseStaticFiles();
-
-            app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseMvc();
         }
     }
