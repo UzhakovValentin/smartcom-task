@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
+using Smartcom.WebApp.UnitOfWork;
 
 namespace Smartcom.WebApp
 {
@@ -46,6 +47,9 @@ namespace Smartcom.WebApp
             })
                 .AddEntityFrameworkStores<AppDataBaseContext>();
             services.AddMvc(config => config.EnableEndpointRouting = false);
+
+
+            services.AddScoped<RepositoriesManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
