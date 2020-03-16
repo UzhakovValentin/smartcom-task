@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -46,8 +48,16 @@ namespace Smartcom.WebApp
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<AppDataBaseContext>();
+
             services.AddMvc(config => config.EnableEndpointRouting = false);
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+                {
+                    config.LoginPath = new PathString("/authentication/login");
+                });
+
+            services.AddAuthorization();
 
             services.AddScoped<RepositoriesManager>();
         }

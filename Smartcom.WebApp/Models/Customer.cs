@@ -7,7 +7,6 @@ namespace Smartcom.WebApp.Models
 {
     public class Customer : IdentityUser<Guid>
     {
-        public Guid CustomerId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

@@ -17,7 +17,7 @@ namespace Smartcom.WebApp.Database
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderElement> OrderElemnts { get; set; }
+        public DbSet<OrderElement> OrderElements { get; set; }
         public DbSet<Item> Items { get; set; }
     }
 }

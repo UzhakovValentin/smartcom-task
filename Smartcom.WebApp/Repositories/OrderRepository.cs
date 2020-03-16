@@ -1,4 +1,5 @@
-﻿using Smartcom.WebApp.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories.Interfaces;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.Repositories
 {
-    public class OrderRepository : IRepository<OrderElement>
+    public class OrderRepository : IRepository<Order>
     {
         private readonly AppDataBaseContext dbContext;
 
@@ -16,29 +17,29 @@ namespace Smartcom.WebApp.Repositories
         {
             this.dbContext = dbContext;
         }
-        public void Create(OrderElement entity)
+        public async Task Create(Order entity) =>
+            await dbContext.Orders.AddAsync(entity);
+
+        public async Task Delete(Guid identifier)
         {
-            throw new NotImplementedException();
+            var order = await dbContext.Orders.FindAsync(identifier);
+            if (order != null)
+            {
+                dbContext.Orders.Remove(order);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
         }
 
-        public void Delete(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Order> Get(Guid identifier) =>
+            await dbContext.Orders.FindAsync(identifier);
 
-        public OrderElement Get(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Order>> GetAll() =>
+            await dbContext.Orders.ToListAsync();
 
-        public List<OrderElement> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(OrderElement entity)
-        {
-            throw new NotImplementedException();
-        }
+        public void Update(Order entity) => 
+            dbContext.Entry(entity).State = EntityState.Modified;
     }
 }

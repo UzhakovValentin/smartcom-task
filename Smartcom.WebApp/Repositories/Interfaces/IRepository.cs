@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        void Create(T entity);
+        Task Create(T entity);
         void Update(T entity);
-        void Delete(Guid identifier);
-        T Get(Guid identifier);
-        List<T> GetAll();
+        Task Delete(Guid identifier);
+        Task<T> Get(Guid identifier);
+        Task<List<T>> GetAll();
     }
 }

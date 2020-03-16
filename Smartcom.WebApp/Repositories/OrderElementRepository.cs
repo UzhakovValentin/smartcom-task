@@ -1,4 +1,5 @@
-﻿using Smartcom.WebApp.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories.Interfaces;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.Repositories
 {
-    public class OrderElementRepository : IRepository<Order>
+    public class OrderElementRepository : IRepository<OrderElement>
     {
         private readonly AppDataBaseContext dbContext;
 
@@ -16,29 +17,29 @@ namespace Smartcom.WebApp.Repositories
         {
             this.dbContext = dbContext;
         }
-        public void Create(Order entity)
+        public async Task Create(OrderElement entity) =>
+            await dbContext.OrderElements.AddAsync(entity);
+
+        public async Task Delete(Guid identifier)
         {
-            throw new NotImplementedException();
+            var orderElement = await dbContext.OrderElements.FindAsync(identifier);
+            if (orderElement != null)
+            {
+                dbContext.OrderElements.Remove(orderElement);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
         }
 
-        public void Delete(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<OrderElement> Get(Guid identifier) =>
+            await dbContext.OrderElements.FindAsync(identifier);
 
-        public Order Get(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<OrderElement>> GetAll() =>
+            await dbContext.OrderElements.ToListAsync();
 
-        public List<Order> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Order entity)
-        {
-            throw new NotImplementedException();
-        }
+        public void Update(OrderElement entity) =>
+            dbContext.Entry(entity).State = EntityState.Modified;
     }
 }

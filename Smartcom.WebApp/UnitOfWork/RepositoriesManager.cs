@@ -1,4 +1,6 @@
-﻿using Smartcom.WebApp.Database;
+﻿using Microsoft.AspNetCore.Identity;
+using Smartcom.WebApp.Database;
+using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories;
 using System;
 
@@ -7,15 +9,18 @@ namespace Smartcom.WebApp.UnitOfWork
     public class RepositoriesManager : IDisposable
     {
         private readonly AppDataBaseContext dbContext;
+        private readonly UserManager<Customer> userManager;
         private CustomerRepository customerRepository;
         private ItemRepository itemRepository;
         private OrderRepository orderRepository;
         private OrderElementRepository orderElementRepository;
         private bool isDisposed = false;
 
-        public RepositoriesManager(AppDataBaseContext dbContext)
+        public RepositoriesManager(AppDataBaseContext dbContext,
+            UserManager<Customer> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         public CustomerRepository Customers
@@ -24,7 +29,7 @@ namespace Smartcom.WebApp.UnitOfWork
             {
                 if (customerRepository == null)
                 {
-                    customerRepository = new CustomerRepository(dbContext);
+                    customerRepository = new CustomerRepository(dbContext, userManager);
                 }
                 return customerRepository;
             }

@@ -1,4 +1,5 @@
-﻿using Smartcom.WebApp.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories.Interfaces;
 using System;
@@ -16,29 +17,29 @@ namespace Smartcom.WebApp.Repositories
         {
             this.dbContext = dbContext;
         }
-        public void Create(Item entity)
+        public async Task Create(Item entity) =>
+            await dbContext.Items.AddAsync(entity);
+
+        public async Task Delete(Guid identifier)
         {
-            throw new NotImplementedException();
+            var item = await dbContext.Items.FindAsync(identifier);
+            if (item != null)
+            {
+                dbContext.Items.Remove(item);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
         }
 
-        public void Delete(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Item> Get(Guid identifier) =>
+            await dbContext.Items.FindAsync(identifier);
 
-        public Item Get(Guid identifier)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Item>> GetAll() =>
+            await dbContext.Items.ToListAsync();
 
-        public List<Item> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Item entity)
-        {
-            throw new NotImplementedException();
-        }
+        public void Update(Item entity) =>
+            dbContext.Entry(entity).State = EntityState.Modified;
     }
 }
