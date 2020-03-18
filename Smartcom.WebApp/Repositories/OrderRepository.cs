@@ -37,9 +37,13 @@ namespace Smartcom.WebApp.Repositories
             await dbContext.Orders.FindAsync(identifier);
 
         public async Task<List<Order>> GetAll() =>
-            await dbContext.Orders.ToListAsync();
+            await dbContext
+                    .Orders
+                    .Include(o => o.OrderElemnts)
+                    .ThenInclude(o => o.Item)
+                    .ToListAsync();
 
-        public void Update(Order entity) => 
+        public void Update(Order entity) =>
             dbContext.Entry(entity).State = EntityState.Modified;
     }
 }

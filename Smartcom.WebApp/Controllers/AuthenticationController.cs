@@ -8,7 +8,6 @@ using Smartcom.WebApp.Auth;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.UnitOfWork;
 using Smartcom.WebApp.ViewModels.Requests;
-using Smartcom.WebApp.ViewModels.Responces;
 
 namespace Smartcom.WebApp.Controllers
 {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Smartcom.WebApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Customer")]
+    [Authorize(AuthenticationSchemes = "Cookies", Roles = "Customer")]
     [Route("customer")]
     public class CustomerController : Controller
     {

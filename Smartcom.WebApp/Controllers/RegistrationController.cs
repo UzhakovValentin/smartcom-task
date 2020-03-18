@@ -6,7 +6,6 @@ using Smartcom.WebApp.Auth;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.UnitOfWork;
 using Smartcom.WebApp.ViewModels.Requests;
-using Smartcom.WebApp.ViewModels.Responces;
 
 namespace Smartcom.WebApp.Controllers
 {
@@ -47,7 +46,7 @@ namespace Smartcom.WebApp.Controllers
                     }
                     await userManager.AddToRoleAsync(customer, "Customer");
                     await Authentication.Authenticate(customer, userManager, HttpContext);
-                    return Ok(new CustomerIdResponce { CustomerId = customer.Id });
+                    return Ok(new { CustomerId = customer.Id });
                 }
                 return BadRequest("Email has been already taken");
             }

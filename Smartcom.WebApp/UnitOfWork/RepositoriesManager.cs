@@ -3,6 +3,7 @@ using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories;
 using System;
+using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.UnitOfWork
 {
@@ -67,6 +68,9 @@ namespace Smartcom.WebApp.UnitOfWork
                 return orderElementRepository;
             }
         }
+
+        public async Task SaveChanges() =>
+            await dbContext.SaveChangesAsync();
 
         protected virtual void Dispose(bool disposing)
         {

@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
+using Smartcom.WebApp.Services;
+using Smartcom.WebApp.Services.Intefaces;
 using Smartcom.WebApp.UnitOfWork;
 
 namespace Smartcom.WebApp
@@ -60,6 +62,8 @@ namespace Smartcom.WebApp
             services.AddAuthorization();
 
             services.AddScoped<RepositoriesManager>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IPasswordGenerator, PasswordGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
