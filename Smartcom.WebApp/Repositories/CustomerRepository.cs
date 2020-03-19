@@ -31,7 +31,7 @@ namespace Smartcom.WebApp.Repositories
             await userManager.FindByEmailAsync(email);
         public async Task<List<Customer>> GetAll() =>
             await dbContext.Customers.ToListAsync();
-        public void Update(Customer entity) =>
-            dbContext.Entry(entity).State = EntityState.Modified;
+        public async Task Update(Customer entity) =>
+            await userManager.UpdateAsync(entity);
     }
 }

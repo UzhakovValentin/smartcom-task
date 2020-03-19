@@ -7,7 +7,7 @@ namespace Smartcom.WebApp.ViewModels.Requests
 {
     public class EditItemRequest
     {
-        public Guid ItemId { get; set; }
+        public Guid EditedItemId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public float Price { get; set; }

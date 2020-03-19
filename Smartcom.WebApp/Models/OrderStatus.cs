@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.Models
 {
-    public enum OrderStatus
+    public static class OrderStatuses
     {
-        New,
-        InProccess,
-        Done
+        public const string NEW = "New";
+        public const string IN_PROCESS = "InProcess";
+        public const string DONE = "Done";
     }
 }

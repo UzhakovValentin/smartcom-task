@@ -13,7 +13,7 @@ namespace Smartcom.WebApp.Models
         public DateTime OrderDate { get; set; }
         public DateTime ShipmentDate { get; set; }
         public float OrderNumber { get; set; }
-        public OrderStatus Status { get; set; }
+        public string Status { get; set; }
 
         [Required]
         public Guid CustomerId { get; set; }

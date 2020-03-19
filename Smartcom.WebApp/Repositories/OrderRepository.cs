@@ -44,6 +44,6 @@ namespace Smartcom.WebApp.Repositories
                     .ToListAsync();
 
         public void Update(Order entity) =>
-            dbContext.Entry(entity).State = EntityState.Modified;
+            dbContext.Orders.Update(entity);
     }
 }

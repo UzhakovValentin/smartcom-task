@@ -17,9 +17,9 @@ namespace Smartcom.WebApp.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public async Task Create(Item entity) =>
             await dbContext.Items.AddAsync(entity);
-
         public async Task Delete(Guid identifier)
         {
             var item = await dbContext.Items.FindAsync(identifier);
@@ -32,14 +32,12 @@ namespace Smartcom.WebApp.Repositories
                 throw new NullReferenceException();
             }
         }
-
         public async Task<Item> Get(Guid identifier) =>
             await dbContext.Items.FindAsync(identifier);
-
         public async Task<List<Item>> GetAll() =>
             await dbContext.Items.ToListAsync();
-
         public void Update(Item entity) =>
-            dbContext.Entry(entity).State = EntityState.Modified;
+            dbContext.Items.Update(entity);
+        //dbContext.Entry(await dbContext.Items.FindAsync(entity.ItemId)).CurrentValues.SetValues(entity);
     }
 }

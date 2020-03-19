@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Smartcom.WebApp.Auth;
 using Smartcom.WebApp.Models;
+using Smartcom.WebApp.Services.Intefaces;
 using Smartcom.WebApp.UnitOfWork;
 using Smartcom.WebApp.ViewModels.Requests;
 
@@ -14,12 +15,15 @@ namespace Smartcom.WebApp.Controllers
     {
         private readonly RepositoriesManager repositoriesManager;
         public readonly UserManager<Customer> userManager;
+        private readonly ICustomerCodeGenerator codeGenerator;
 
         public RegistrationController(RepositoriesManager repositoriesManager,
-            UserManager<Customer> userManager)
+            UserManager<Customer> userManager,
+            ICustomerCodeGenerator codeGenerator)
         {
             this.repositoriesManager = repositoriesManager;
             this.userManager = userManager;
+            this.codeGenerator = codeGenerator;
         }
 
         [HttpPost]
@@ -36,7 +40,7 @@ namespace Smartcom.WebApp.Controllers
                         Email = request.Email,
                         UserName = request.Email,
                         Discount = default,
-                        Code = GenerateCustomerCode()
+                        Code = codeGenerator.GenerateCode()
                     };
                     var registrationResult = await repositoriesManager.Customers.Create(customer, request.Password);
 
@@ -51,14 +55,6 @@ namespace Smartcom.WebApp.Controllers
                 return BadRequest("Email has been already taken");
             }
             return BadRequest("Request model is invalid");
-        }
-
-        private string GenerateCustomerCode()
-        {
-            var registrationDay = DateTime.Now.Day;
-            var registrationMounth = DateTime.Now.Month;
-            var registrationYear = DateTime.Now.Year;
-            return $"{registrationDay}{registrationMounth}-{registrationYear}";
         }
     }
 }

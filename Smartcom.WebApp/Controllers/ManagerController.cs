@@ -33,6 +33,18 @@ namespace Smartcom.WebApp.Controllers
             this.passwordGenerator = passwordGenerator;
         }
 
+        [HttpGet("allitems")]
+        public async Task<IActionResult> GetAllItems()
+        {
+            return Json(await repositoriesManager.Items.GetAll());
+        }
+
+        [HttpGet("item/{itemId:guid}")]
+        public async Task<IActionResult> GetItem(Guid itemId)
+        {
+            return Json(await repositoriesManager.Items.Get(itemId));
+        }
+
         [HttpPost("additem")]
         public async Task<IActionResult> AddItem([FromBody] AddItemRequest request)
         {
@@ -56,13 +68,13 @@ namespace Smartcom.WebApp.Controllers
         [HttpPut("edititem")]
         public async Task<IActionResult> EditItem([FromBody] EditItemRequest request)
         {
-            var item = new Item
-            {
-                Name = request.Name,
-                Price = request.Price,
-                Category = request.Category,
-                Code = request.Code
-            };
+            var item = await repositoriesManager.Items.Get(request.EditedItemId);
+
+            item.Name = request.Name;
+            item.Price = request.Price;
+            item.Category = request.Category;
+            item.Code = request.Code;
+
             repositoriesManager.Items.Update(item);
             await repositoriesManager.SaveChanges();
             return Ok();
@@ -77,8 +89,20 @@ namespace Smartcom.WebApp.Controllers
             return Ok();
         }
 
-        [HttpPost("adduser")]
-        public async Task<IActionResult> AddUser([FromBody] AddUserRequest request)
+        [HttpGet("allcustomers")]
+        public async Task<IActionResult> GetAllCustomers()
+        {
+            return Json(await repositoriesManager.Customers.GetAll());
+        }
+
+        [HttpGet("customer/{customerId:guid}")]
+        public async Task<IActionResult> GetCustomer(Guid customerId)
+        {
+            return Json(await repositoriesManager.Customers.FindById(customerId));
+        }
+
+        [HttpPost("addcustomer")]
+        public async Task<IActionResult> AddCustomer([FromBody] AddUserRequest request)
         {
             var customer = new Customer
             {
@@ -102,14 +126,21 @@ namespace Smartcom.WebApp.Controllers
             return BadRequest();
         }
 
-        [HttpPut("editeuser")]
-        public async Task<IActionResult> EditUser([FromBody] Guid customerId)
+        [HttpPut("editcustomer")]
+        public async Task<IActionResult> EditCustomer([FromBody] EditUserRequest request)
         {
+            var customer = await userManager.FindByIdAsync(request.EditedUserId.ToString());
+
+            customer.Name = request.Name;
+            customer.Address = request.Address;
+            customer.Discount = request.Discount;
+
+            await userManager.UpdateAsync(customer);
             return Ok();
         }
 
-        [HttpDelete("deleteuser")]
-        public async Task<IActionResult> DeleteUser([FromBody] Guid customerId)
+        [HttpDelete("deletecustomer")]
+        public async Task<IActionResult> DeleteCustomer([FromBody] Guid customerId)
         {
             var customer = await repositoriesManager.Customers.FindById(customerId);
             var emailSubject = "";
@@ -125,7 +156,7 @@ namespace Smartcom.WebApp.Controllers
         public async Task<IActionResult> GetNewOrders()
         {
             var orders = await repositoriesManager.Orders.GetAll();
-            return Json(orders.Where(order => order.Status == OrderStatus.New).Select(order => new
+            return Json(orders.Where(order => order.Status == OrderStatuses.New).Select(order => new
             {
                 order.OrderId,
                 order.OrderNumber,
@@ -139,7 +170,7 @@ namespace Smartcom.WebApp.Controllers
         {
             var order = await repositoriesManager.Orders.Get(request.OrderId);
 
-            order.Status = OrderStatus.InProccess;
+            order.Status = OrderStatuses.IN_PROCESS;
             order.ShipmentDate = DateTime.Parse(request.ShipmentDate);
 
             await repositoriesManager.SaveChanges();
@@ -150,7 +181,7 @@ namespace Smartcom.WebApp.Controllers
         public async Task<IActionResult> CloseOrder([FromBody] Guid orderId)
         {
             var order = await repositoriesManager.Orders.Get(orderId);
-            order.Status = OrderStatus.Done;
+            order.Status = OrderStatuses.DONE;
 
             return Ok();
         }

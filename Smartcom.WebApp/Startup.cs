@@ -64,6 +64,7 @@ namespace Smartcom.WebApp
             services.AddScoped<RepositoriesManager>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IPasswordGenerator, PasswordGenerator>();
+            services.AddSingleton<ICustomerCodeGenerator, CustomerCodeGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
