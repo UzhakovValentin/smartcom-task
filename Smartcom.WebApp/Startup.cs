@@ -57,6 +57,7 @@ namespace Smartcom.WebApp
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
                 {
                     config.LoginPath = new PathString("/authentication/login");
+                    config.ExpireTimeSpan = TimeSpan.FromDays(2);
                 });
 
             services.AddAuthorization();
@@ -65,6 +66,7 @@ namespace Smartcom.WebApp
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IPasswordGenerator, PasswordGenerator>();
             services.AddSingleton<ICustomerCodeGenerator, CustomerCodeGenerator>();
+            services.AddSingleton<IShoppingCartService<Order>, ShoppingCartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

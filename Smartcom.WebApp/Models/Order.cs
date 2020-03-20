@@ -18,6 +18,6 @@ namespace Smartcom.WebApp.Models
         [Required]
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public List<OrderElement> OrderElemnts { get; set; }
+        public List<OrderElement> OrderElements { get; set; }
     }
 }

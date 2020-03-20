@@ -39,7 +39,7 @@ namespace Smartcom.WebApp.Repositories
         public async Task<List<Order>> GetAll() =>
             await dbContext
                     .Orders
-                    .Include(o => o.OrderElemnts)
+                    .Include(o => o.OrderElements)
                     .ThenInclude(o => o.Item)
                     .ToListAsync();
 
