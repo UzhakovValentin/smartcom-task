@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Smartcom.UnitTests
 {
-    class CustomerControllerTests
+    class CustomerControllerTest
     {
     }
 }

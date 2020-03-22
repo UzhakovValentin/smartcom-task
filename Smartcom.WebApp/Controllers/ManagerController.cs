@@ -156,12 +156,12 @@ namespace Smartcom.WebApp.Controllers
         public async Task<IActionResult> GetNewOrders()
         {
             var orders = await repositoriesManager.Orders.GetAll();
-            return Json(orders.Where(order => order.Status == OrderStatuses.New).Select(order => new
+            return Json(orders.Where(order => order.Status == OrderStatuses.NEW).Select(order => new
             {
                 order.OrderId,
                 order.OrderNumber,
                 order.OrderDate,
-                order.OrderElemnts
+                order.OrderElements
             }));
         }
 
