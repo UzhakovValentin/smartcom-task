@@ -12,7 +12,7 @@ namespace Smartcom.WebApp.Repositories
     public class ItemRepository : IRepository<Item>
     {
         private readonly AppDataBaseContext dbContext;
-
+    
         public ItemRepository(AppDataBaseContext dbContext)
         {
             this.dbContext = dbContext;

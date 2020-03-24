@@ -16,6 +16,7 @@ using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Services;
 using Smartcom.WebApp.Services.Intefaces;
 using Smartcom.WebApp.UnitOfWork;
+using Smartcom.WebApp.UnitOfWork.Interface;
 
 namespace Smartcom.WebApp
 {
@@ -62,7 +63,7 @@ namespace Smartcom.WebApp
 
             services.AddAuthorization();
 
-            services.AddScoped<RepositoriesManager>();
+            services.AddScoped<IRepositoriesManager, RepositoriesManager>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IPasswordGenerator, PasswordGenerator>();
             services.AddSingleton<ICustomerCodeGenerator, CustomerCodeGenerator>();

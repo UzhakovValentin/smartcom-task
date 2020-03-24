@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.Repositories.Interfaces
 {
-    interface ICustomerRepository<T> where T : IdentityUser<Guid>
+    public interface ICustomerRepository<T> where T : IdentityUser<Guid>
     {
         Task<IdentityResult> Create(T entity, string password);
         Task Update(T entity);

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Services.Intefaces;
 using Smartcom.WebApp.UnitOfWork;
+using Smartcom.WebApp.UnitOfWork.Interface;
 using Smartcom.WebApp.ViewModels.Requests;
 
 namespace Smartcom.WebApp.Controllers
@@ -16,10 +17,10 @@ namespace Smartcom.WebApp.Controllers
     [Route("customer")]
     public class CustomerController : Controller
     {
-        private readonly RepositoriesManager repositoriesManager;
+        private readonly IRepositoriesManager repositoriesManager;
         private readonly IShoppingCartService<Order> shoppingCartService;
 
-        public CustomerController(RepositoriesManager repositoriesManager,
+        public CustomerController(IRepositoriesManager repositoriesManager,
             IShoppingCartService<Order> shoppingCartService)
         {
             this.repositoriesManager = repositoriesManager;

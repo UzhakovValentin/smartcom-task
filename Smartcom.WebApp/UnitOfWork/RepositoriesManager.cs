@@ -2,19 +2,21 @@
 using Smartcom.WebApp.Database;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Repositories;
+using Smartcom.WebApp.Repositories.Interfaces;
+using Smartcom.WebApp.UnitOfWork.Interface;
 using System;
 using System.Threading.Tasks;
 
 namespace Smartcom.WebApp.UnitOfWork
 {
-    public class RepositoriesManager : IDisposable
+    public class RepositoriesManager : IRepositoriesManager
     {
         private readonly AppDataBaseContext dbContext;
         private readonly UserManager<Customer> userManager;
-        private CustomerRepository customerRepository;
-        private ItemRepository itemRepository;
-        private OrderRepository orderRepository;
-        private OrderElementRepository orderElementRepository;
+        private ICustomerRepository<Customer> customerRepository;
+        private IRepository<Item> itemRepository;
+        private IRepository<Order> orderRepository;
+        private IRepository<OrderElement> orderElementRepository;
         private bool isDisposed = false;
 
         public RepositoriesManager(AppDataBaseContext dbContext,
@@ -24,7 +26,7 @@ namespace Smartcom.WebApp.UnitOfWork
             this.userManager = userManager;
         }
 
-        public CustomerRepository Customers
+        public ICustomerRepository<Customer> Customers
         {
             get
             {
@@ -35,7 +37,7 @@ namespace Smartcom.WebApp.UnitOfWork
                 return customerRepository;
             }
         }
-        public ItemRepository Items
+        public virtual IRepository<Item> Items
         {
             get
             {
@@ -46,7 +48,7 @@ namespace Smartcom.WebApp.UnitOfWork
                 return itemRepository;
             }
         }
-        public OrderRepository Orders
+        public IRepository<Order> Orders
         {
             get
             {
@@ -57,7 +59,7 @@ namespace Smartcom.WebApp.UnitOfWork
                 return orderRepository;
             }
         }
-        public OrderElementRepository OrderElements
+        public IRepository<OrderElement> OrderElements
         {
             get
             {

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Smartcom.WebApp.Models;
 using Smartcom.WebApp.Services.Intefaces;
 using Smartcom.WebApp.UnitOfWork;
+using Smartcom.WebApp.UnitOfWork.Interface;
 using Smartcom.WebApp.ViewModels.Requests;
 
 namespace Smartcom.WebApp.Controllers
@@ -17,12 +18,12 @@ namespace Smartcom.WebApp.Controllers
     [Route("manager")]
     public class ManagerController : Controller
     {
-        private readonly RepositoriesManager repositoriesManager;
+        private readonly IRepositoriesManager repositoriesManager;
         private readonly UserManager<Customer> userManager;
         private readonly IEmailSender emailSender;
         private readonly IPasswordGenerator passwordGenerator;
 
-        public ManagerController(RepositoriesManager repositoriesManager,
+        public ManagerController(IRepositoriesManager repositoriesManager,
             UserManager<Customer> userManager,
             IEmailSender emailSender,
             IPasswordGenerator passwordGenerator)
@@ -42,7 +43,13 @@ namespace Smartcom.WebApp.Controllers
         [HttpGet("item/{itemId:guid}")]
         public async Task<IActionResult> GetItem(Guid itemId)
         {
-            return Json(await repositoriesManager.Items.Get(itemId));
+            var item = await repositoriesManager.Items.Get(itemId);
+            if (item != null)
+            {
+                return Json(item);
+            }
+            return NotFound("Item not found");
+            
         }
 
         [HttpPost("additem")]
