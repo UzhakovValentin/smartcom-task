@@ -13,6 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.4.0
+      with:
+        dotnet-version: 3.1.000
+  
+    - name: Tests
+      run: dotnet test
+    
     - name: Docker Build & Push
       uses: mr-smithers-excellent/docker-build-push@v2
       with:
